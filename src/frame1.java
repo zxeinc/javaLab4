@@ -164,7 +164,7 @@ public class frame1 extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -207,11 +207,12 @@ public class frame1 extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(saveFile)
-                    .addComponent(saveBinFile)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(saveFile)
+                        .addComponent(saveBinFile)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -323,6 +324,7 @@ public class frame1 extends javax.swing.JFrame {
     private void saveFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveFileActionPerformed
         DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
         jFileChooser1.setDialogTitle("Сохранение файла");
+        
                 if(jFileChooser1.showSaveDialog(null) == jFileChooser1.APPROVE_OPTION){
                     File file = new File(jFileChooser1.getSelectedFile() + ".txt");
                     try{
@@ -367,9 +369,17 @@ public class frame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_saveBinFileActionPerformed
 
     private void openBinFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openBinFileActionPerformed
+        DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
         jFileChooser1.setDialogTitle("Выберите файл");
                 int result = jFileChooser1.showOpenDialog(frame1.this);
                 if(result == jFileChooser1.APPROVE_OPTION){
+                    
+                    if(model.getRowCount() > 0){
+                        JOptionPane.showMessageDialog(null, "Таблица перезаписана", "message",0);
+                        list.clear();
+                        model.setRowCount(0);
+                    }
+                    
                     File fileReader = jFileChooser1.getSelectedFile();
                     ObjectInputStream obj_in = null;
                     try{
@@ -383,7 +393,6 @@ public class frame1 extends javax.swing.JFrame {
 //                    clear.doClick();
 //                    fill.doClick();
                 }
-        DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
         for(int row = 0; row<list.size(); row++){
             model.addRow(new Object[]{list.get(row).start,list.get(row).end,list.get(row).step});
         };
@@ -394,6 +403,13 @@ public class frame1 extends javax.swing.JFrame {
         jFileChooser1.setDialogTitle("Выберите файл");
                 
                 if(jFileChooser1.showOpenDialog(null) == jFileChooser1.APPROVE_OPTION){
+                    
+                    if(model.getRowCount() > 0){
+                        JOptionPane.showMessageDialog(null, "Таблица перезаписана", "message",0);
+                        list.clear();
+                        model.setRowCount(0);
+                    }
+                    
                     String file = jFileChooser1.getSelectedFile().toString();
                     long lines = 0;
                     try {
